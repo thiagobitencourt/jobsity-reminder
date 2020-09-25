@@ -5,7 +5,7 @@ import { ToolbarComponent } from './toolbar.component';
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
-  let appTitle = 'Jobsity reminder';
+  let appTitle = 'Jobsity Reminder';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('ToolbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have title 'Jobsity reminder'`, () => {
+  it(`should have title '${appTitle}'`, () => {
     expect(component.appTitle).toEqual(appTitle);
   });
 

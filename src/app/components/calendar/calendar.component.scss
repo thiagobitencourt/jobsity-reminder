@@ -1,0 +1,52 @@
+@import "src/assets/styles/theme";
+
+:host {
+  .calendar-header {
+    background-color: $primary-color;
+    color: $white-color;
+
+    .header-label {
+      font-weight: bold;
+      text-align: center;
+      padding: 5px 0px;
+    }
+  }
+
+  .calendar-line {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .calendar-grid {
+    .date-item {
+      height: 150px;
+      border: 0.5px solid $divider-color;
+      padding: 3px;
+
+      .day-number {
+        font-weight: bold;
+        color: $primary-text-color;
+      }
+
+      &.today .day-number {
+        color: $accent-color;
+      }
+
+      &.weekend {
+        background-color: $light-color;
+
+        .day-number {
+          color: $primary-color;
+        }
+      }
+
+      &.disabled .day-number {
+        color: $secondary-text-color;
+      }
+
+      &:not(.disabled):hover {
+        background-color: $highlight-color;
+      }
+    }
+  }
+}

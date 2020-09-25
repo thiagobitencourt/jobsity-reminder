@@ -1,0 +1,29 @@
+<div class="calendar-line calendar-header">
+  <div
+    class="header-label"
+    *ngFor="let calendarDate of calendarDates | slice: 0:7"
+  >
+    {{ calendarDate.date | date: "EEEE" }}
+  </div>
+</div>
+
+<div class="calendar-grid calendar-line">
+  <div
+    *ngFor="let calendarDate of calendarDates"
+    class="date-item"
+    [class.today]="calendarDate.date | isToday"
+    [class.weekend]="calendarDate.date | isWeekend"
+    [class.disabled]="calendarDate.date | isOutOfMonth"
+  >
+    <div>
+      <span class="day-number">{{ calendarDate.date | date: "dd" }}</span>
+      <span><!-- Forecast icon --></span>
+    </div>
+    <div *ngFor="let reminder of calendarDate.reminders">
+      {{ reminder.description }}
+    </div>
+    <div class="actions">
+      <!-- Actions -->
+    </div>
+  </div>
+</div>

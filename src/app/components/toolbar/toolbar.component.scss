@@ -1,14 +1,11 @@
+@import "src/assets/styles/theme";
+
 .toolbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   height: 60px;
-  display: flex;
   align-items: center;
-  background-color: #1976d2;
-  color: white;
-  font-weight: 600;
+  background-color: $primary-color;
+  color: $white-color;
+  font-weight: bold;
   display: grid;
   grid-template-columns: auto auto 1fr auto;
 
