@@ -23,13 +23,29 @@
       border: 0.5px solid $divider-color;
       padding: 3px;
 
+      .icon {
+        font-weight: bold;
+        font-size: 13px;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+
+      .date-item-header {
+        display: grid;
+        grid-template-columns: auto auto 1fr auto;
+
+        .icon-remove-all {
+          color: $warn-color;
+        }
+      }
+
       .day-number {
         font-weight: bold;
         color: $primary-text-color;
       }
 
       &.today .day-number {
-        color: $accent-color;
+        color: $warn-color !important;
       }
 
       &.weekend {
@@ -43,9 +59,38 @@
       &.disabled .day-number {
         color: $secondary-text-color;
       }
+    }
 
-      &:not(.disabled):hover {
-        background-color: $highlight-color;
+    .reminder-list {
+      display: grid;
+      overflow-y: auto;
+
+      .reminder-item {
+        display: grid;
+        grid-template-columns: 20px 1fr auto;
+        gap: 5px;
+        padding: 5px 3px;
+  
+        &:hover {
+          cursor: pointer;
+          background-color: $highlight-color;
+        }
+  
+        .color {
+          border-radius: 50%;
+        }
+  
+        .label {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+  
+        .remove {
+          cursor: pointer;
+          border-left: 1px solid $divider-color;
+          color: $secondary-text-color;
+        }
       }
     }
   }
