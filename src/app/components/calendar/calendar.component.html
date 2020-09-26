@@ -20,10 +20,12 @@
       <span><!-- Forecast icon --></span>
     </div>
     <div *ngFor="let reminder of calendarDate.reminders">
-      {{ reminder.description }}
+      <span (click)="removeReminder(reminder)"> X </span>
+      <span (click)="editReminder(reminder)">{{ reminder.description }}</span>
     </div>
     <div class="actions">
       <!-- Actions -->
+      <span (click)="removeAllReminders(calendarDate.date)">Remove all</span>
     </div>
   </div>
 </div>

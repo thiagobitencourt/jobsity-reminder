@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { CalendarDate } from 'src/app/models/calendar-date';
 import { Reminder } from 'src/app/models/reminder';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReminderService } from 'src/app/services/reminder.service';
 
 @Component({
@@ -15,7 +16,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   calendarDates: CalendarDate[];
   month = new Date();
 
-  constructor(private calendarService: CalendarService, private reminderService: ReminderService) {}
+  constructor(
+    private calendarService: CalendarService,
+    private reminderService: ReminderService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.loadCalendar();
@@ -25,6 +30,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
+  removeReminder(reminder: Reminder) {
+    this.reminderService.removeReminder(reminder);
+  }
+
+  removeAllReminders(date: Date) {
+    this.reminderService.removeAllRemindersByDate(date);
+  }
+
+  editReminder(reminder: Reminder) {
+    this.subscriptions.add(
+      this.dialogService.openReminderDialog(reminder).subscribe()
+    );
   }
 
   private loadCalendar() {

@@ -48,9 +48,21 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
       const datetime = this.parseDatetimeValue(formValue);
       const reminder: Reminder = { id, description, datetime, city, color };
 
-      this.reminderService.saveReminder(reminder).subscribe(() => {
-        this.dialogRef.close(reminder);
-      });
+      this.subscriptions.add(
+        this.reminderService.saveReminder(reminder).subscribe(() => {
+          this.dialogRef.close(reminder);
+        })
+      );
+    }
+  }
+
+  remove() {
+    if (this.reminder.id) {
+      this.subscriptions.add(
+        this.reminderService.removeReminder(this.reminder).subscribe(() => {
+          this.dialogRef.close(this.reminder);
+        })
+      );
     }
   }
 
@@ -64,8 +76,8 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
       id: [reminder.id],
       description: [reminder.description, [Validators.required, Validators.maxLength(this.maxDesciption)]],
       date: [reminder.datetime, Validators.required],
-      hour: [format(reminder.datetime, 'HH'), Validators.required],
-      minute: [format(reminder.datetime, 'mm'), Validators.required],
+      hour: [this.getFormatedTime(reminder.datetime, 'HH'), Validators.required],
+      minute: [this.getFormatedTime(reminder.datetime, 'mm'), Validators.required],
       city: [reminder.city],
       color: [reminder.color]
     });
@@ -76,12 +88,16 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   }
 
   private parseDatetimeValue({ date, hour, minute }) {
-    const dateString = format(date, 'MM-dd-yyyy');
+    const dateString = format(new Date(date), 'MM-dd-yyyy');
     return parse(`${dateString} ${hour}:${minute}`, 'MM-dd-yyyy HH:mm', new Date());
   }
 
   private reminderInitialValues(): Reminder {
     return { description: null, datetime: new Date(), color: '#3f51b5' };
+  }
+
+  private getFormatedTime(datetime: Date, pattern: string): string {
+    return format(new Date(datetime), pattern);
   }
 
   private getNumberList(size): string[] {

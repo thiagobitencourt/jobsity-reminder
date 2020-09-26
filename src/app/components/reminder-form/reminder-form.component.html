@@ -62,6 +62,7 @@
 
   <mat-dialog-actions>
     <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+    <button mat-flat-button color="warn" *ngIf="form.get('id').value" (click)="remove()" mat-dialog-close>Remove</button>
     <button mat-flat-button mat-dialog-close>Cancel</button>
   </mat-dialog-actions>
 </form>

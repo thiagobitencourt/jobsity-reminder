@@ -40,6 +40,7 @@ export class ReminderService {
         reminders[existingReminderIndex] = reminder;
       } else {
         allReminders = this.remove(allReminders, reminder);
+        reminders.push(reminder);
       }
     } else {
       reminder.id = this.generateReminderId();
