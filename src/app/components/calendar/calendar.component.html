@@ -4,26 +4,27 @@
   </div>
 </div>
 
-<div class="calendar-grid calendar-line">
-  <div
+<div class="calendar-line calendar-grid">
+  <div class="calendar-item"
     *ngFor="let calendarDate of calendarDates"
-    class="date-item"
-    [class.today]="calendarDate.date | isToday"
-    [class.weekend]="calendarDate.date | isWeekend"
-    [class.disabled]="calendarDate.date | isOutOfMonth"
+    [class.is-today]="calendarDate.date | isToday"
+    [class.is-weekend]="calendarDate.date | isWeekend"
+    [class.is-disabled]="calendarDate.date | isOutOfMonth"
   >
-    <div class="date-item-header">
-      <span class="day-number">{{ calendarDate.date | date: "dd" }}</span>
+    <div class="calendar-item-header">
+      <span class="calendar-day-number">{{ calendarDate.date | date: "dd" }}</span>
       <span><!-- Forecast icon --></span>
       <span><!-- Placeholder --></span>
-      <span class="icon icon-remove-all" title="Remove all" *ngIf="!(calendarDate.date | isOutOfMonth) && calendarDate.reminders?.length" (click)="removeAllReminders(calendarDate.date)">Xx</span>
+      <span class="remove-all" title="Remove all" *ngIf="!(calendarDate.date | isOutOfMonth) && calendarDate.reminders?.length" (click)="removeAllReminders(calendarDate.date)">Xx</span>
     </div>
-    <div class="reminder-list">
-      <div class="reminder-item" *ngFor="let reminder of calendarDate.reminders" (click)="editReminder(reminder)" title="Edit">
-        <span class="color" [style.background]="reminder.color"></span>
-        <span class="label">{{ reminder.description }}</span>
-        <span class="remove icon" title="Remove" (click)="removeReminder(reminder)">X</span>
-      </div>
+
+    <div class="calendar-item-body">
+      <app-reminder-item
+        *ngFor="let reminder of calendarDate.reminders"
+        [reminder]="reminder"
+        (reminderClick)="editReminder(reminder)"
+        (remove)="removeReminder(reminder)"
+      ></app-reminder-item>
     </div>
   </div>
 </div>

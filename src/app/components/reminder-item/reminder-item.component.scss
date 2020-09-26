@@ -1,0 +1,32 @@
+@import "src/assets/styles/theme";
+
+.reminder-item {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 5px;
+  padding: 5px 3px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $highlight-color;
+  }
+
+  .color {
+    border-radius: 50%;
+  }
+
+  .label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .remove {
+    cursor: pointer;
+    border-left: 1px solid $divider-color;
+    color: $secondary-text-color;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0 10px;
+  }
+}

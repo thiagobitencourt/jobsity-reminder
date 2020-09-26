@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { ReminderItemComponent } from './components/reminder-item/reminder-item.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatSelectModule } from '@angular/material/select';
     IsTodayPipe,
     IsWeekendPipe,
     IsOutOfMonthPipe,
-    ReminderFormComponent
+    ReminderFormComponent,
+    ReminderItemComponent
   ],
   imports: [
     BrowserModule,

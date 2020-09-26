@@ -1,0 +1,5 @@
+<div class="reminder-item" (click)="clickReminder(reminder)" title="Edit">
+  <span class="color" [style.background]="reminder.color"></span>
+  <span class="label">{{ reminder.description }}</span>
+  <span class="remove" title="Remove" (click)="removeReminder(reminder)">X</span>
+</div>

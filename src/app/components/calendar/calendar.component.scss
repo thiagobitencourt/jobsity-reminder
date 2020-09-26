@@ -1,6 +1,11 @@
 @import "src/assets/styles/theme";
 
 :host {
+  .calendar-line {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
   .calendar-header {
     background-color: $primary-color;
     color: $white-color;
@@ -12,85 +17,49 @@
     }
   }
 
-  .calendar-line {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-  }
-
   .calendar-grid {
-    .date-item {
+    .calendar-item {
       height: 150px;
       border: 0.5px solid $divider-color;
       padding: 3px;
+      display: grid;
 
-      .icon {
-        font-weight: bold;
-        font-size: 13px;
-        padding: 0 10px;
-        cursor: pointer;
-      }
-
-      .date-item-header {
+      .calendar-item-header {
         display: grid;
         grid-template-columns: auto auto 1fr auto;
 
-        .icon-remove-all {
+        .calendar-day-number {
+          font-weight: bold;
+          color: $primary-text-color;
+        }
+
+        .remove-all {
           color: $warn-color;
+          font-weight: bold;
+          font-size: 13px;
+          padding: 0 10px;
+          cursor: pointer;
         }
       }
 
-      .day-number {
-        font-weight: bold;
-        color: $primary-text-color;
-      }
-
-      &.today .day-number {
+      &.is-today .calendar-item-header .calendar-day-number {
         color: $warn-color !important;
       }
 
-      &.weekend {
+      &.is-weekend {
         background-color: $light-color;
-
-        .day-number {
+        
+        .calendar-item-header .calendar-day-number {
           color: $primary-color;
         }
       }
 
-      &.disabled .day-number {
+      &.is-disabled .calendar-item-header .calendar-day-number {
         color: $secondary-text-color;
       }
-    }
 
-    .reminder-list {
-      display: grid;
-      overflow-y: auto;
-
-      .reminder-item {
-        display: grid;
-        grid-template-columns: 20px 1fr auto;
-        gap: 5px;
-        padding: 5px 3px;
-  
-        &:hover {
-          cursor: pointer;
-          background-color: $highlight-color;
-        }
-  
-        .color {
-          border-radius: 50%;
-        }
-  
-        .label {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-  
-        .remove {
-          cursor: pointer;
-          border-left: 1px solid $divider-color;
-          color: $secondary-text-color;
-        }
+      .calendar-item-body {
+        overflow: auto;
       }
     }
   }
