@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { eachDayOfInterval, format } from 'date-fns';
+import { compareAsc, eachDayOfInterval, format } from 'date-fns';
 import { Observable, of, Subject } from 'rxjs';
 import { Reminder } from '../models/reminder';
 import { RemindersDateMap } from '../models/reminders-date-map';
@@ -47,6 +47,7 @@ export class ReminderService {
       reminders.push(reminder);
     }
 
+    reminders.sort((reminderA, reminderB) => compareAsc(new Date(reminderA.datetime), new Date(reminderB.datetime)));
     allReminders[dateString] = reminders;
     this.setReminders(allReminders);
     return of(reminder);
