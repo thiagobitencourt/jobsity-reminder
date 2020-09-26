@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CalendarDate } from 'src/app/models/calendar-date';
+import { Reminder } from 'src/app/models/reminder';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { ReminderService } from 'src/app/services/reminder.service';
 
 @Component({
   selector: 'app-calendar',
@@ -9,25 +11,33 @@ import { CalendarService } from 'src/app/services/calendar.service';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  calendarDatesSubscription: Subscription;
+  subscriptions = new Subscription();
   calendarDates: CalendarDate[];
   month = new Date();
 
-  constructor(private calendarService: CalendarService) {}
+  constructor(private calendarService: CalendarService, private reminderService: ReminderService) {}
 
   ngOnInit(): void {
     this.loadCalendar();
+    this.setReminderChangesListener();
   }
 
   ngOnDestroy() {
-    if (this.calendarDatesSubscription) {
-      this.calendarDatesSubscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
+  }
   }
 
   private loadCalendar() {
-    this.calendarDatesSubscription = this.calendarService.getCalendarDates(this.month).subscribe(calendarDates => {
-      this.calendarDates = calendarDates;
-    });
+    this.subscriptions.add(
+      this.calendarService.getCalendarDates(this.month).subscribe(calendarDates => {
+       this.calendarDates = calendarDates;
+      })
+    );
+  }
+
+  private setReminderChangesListener() {
+    this.subscriptions.add(
+      this.reminderService.reminderChanges().subscribe(this.loadCalendar.bind(this))
+    );
   }
 }

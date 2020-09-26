@@ -3,7 +3,7 @@ import { addDays, eachDayOfInterval, endOfMonth, format, getDay, startOfMonth, s
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CalendarDate } from '../models/calendar-date';
-import { RemindersDateMap } from '../models/reminders-date-map';
+import { ReminderService } from './reminder.service';
 
 const SATURDAY = 6;
 
@@ -11,7 +11,7 @@ const SATURDAY = 6;
   providedIn: 'root'
 })
 export class CalendarService {
-  constructor() {}
+  constructor(private reminderService: ReminderService) {}
 
   getCalendarDates(month: Date): Observable<CalendarDate[]> {
     const firstDayOfMonth = startOfMonth(month);
@@ -19,7 +19,7 @@ export class CalendarService {
 
     return forkJoin([
       this.getCalendarDatesList(firstDayOfMonth, lastDayOfMonth),
-      this.getMonthReminders(firstDayOfMonth, lastDayOfMonth),
+      this.reminderService.getReminders(firstDayOfMonth, lastDayOfMonth),
       this.getMonthForecast(firstDayOfMonth, lastDayOfMonth)
     ]).pipe(map(([ calendarDates, remindersDateMap, forecast ]: any[]) => {
       return calendarDates.map((calendarDate: CalendarDate) => {
@@ -37,19 +37,6 @@ export class CalendarService {
     // Always ends at Saturday
     const end = addDays(lastDayOfMonth, SATURDAY - getDay(lastDayOfMonth));
     return of(eachDayOfInterval({ start, end }).map((date: Date) => ({ date, reminders: [], forecast: [] })));
-  }
-
-  private getMonthReminders(firstDayOfMonth: Date, lastDayOfMonth: Date): Observable<RemindersDateMap> {
-    return of({
-      '2020-09-25': [
-        {
-          datetime: new Date('2020-09-25'),
-          description: 'reminder 1',
-          color: '#CCCCCC',
-          city: 'New York'
-        }
-      ]
-    });
   }
 
   private getMonthForecast(firstDayOfMonth: Date, lastDayOfMonth: Date) {

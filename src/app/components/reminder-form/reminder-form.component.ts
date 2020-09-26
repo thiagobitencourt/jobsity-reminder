@@ -5,6 +5,7 @@ import { format, parse } from 'date-fns';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Reminder } from 'src/app/models/reminder';
+import { ReminderService } from 'src/app/services/reminder.service';
 
 @Component({
   selector: 'app-reminder-form',
@@ -26,7 +27,8 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<ReminderFormComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private reminderService: ReminderService
   ) {
     this.reminder = this.data && this.data.reminder;
     this.labelTitle = this.reminder ? this.editReminderLabel : this.newReminderLabel;
@@ -44,7 +46,11 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       const { id, description, city, color, ...formValue } = this.form.getRawValue();
       const datetime = this.parseDatetimeValue(formValue);
-      this.dialogRef.close({ id, description, datetime, city, color } as Reminder);
+      const reminder: Reminder = { id, description, datetime, city, color };
+
+      this.reminderService.saveReminder(reminder).subscribe(() => {
+        this.dialogRef.close(reminder);
+      });
     }
   }
 
