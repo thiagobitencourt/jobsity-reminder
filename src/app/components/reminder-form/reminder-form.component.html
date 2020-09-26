@@ -16,17 +16,17 @@
       </mat-error>
     </mat-form-field>
 
-    <div class="full-width side">
-      <mat-form-field class="full-width">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="datePicker" formControlName="date" />
-        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-        <mat-datepicker #datePicker></mat-datepicker>
-        <mat-error *ngIf="form.get('description').hasError('required')">
-          The Date field is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="datePicker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-error *ngIf="form.get('description').hasError('required')">
+        The Date field is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
 
+    <div class="side">
       <mat-form-field>
         <mat-label>Hour</mat-label>
         <mat-select formControlName="hour">

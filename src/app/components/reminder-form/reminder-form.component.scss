@@ -1,6 +1,4 @@
 :host {
-  width: 50vw;
-
   .form-fields {
     display: grid;
     gap: 15px;
@@ -11,7 +9,7 @@
 
     .side {
       display: grid;
-      grid-template-columns: 3fr 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 15px;
     }
   }

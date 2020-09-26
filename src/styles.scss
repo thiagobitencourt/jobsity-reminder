@@ -11,4 +11,13 @@ body {
 
 .responsive-dialog {
   width: 40vw;
+
+  @media screen and (max-width: 1150px) {
+    width: 60vw;
+  }
+
+  @media screen and (max-width: 720px) {
+    width: 90vw;
+    max-width: 100vw !important;
+  }
 }
