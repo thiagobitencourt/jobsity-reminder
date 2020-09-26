@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{ labelTitle }}</h2>
+<form [formGroup]="form">
+  <mat-dialog-content class="form-fields">
+    <mat-form-field class="full-width">
+      <mat-label>Reminder</mat-label>
+      <input type="text" matInput formControlName="description" />
+      <mat-hint align="start">Max {{ maxDesciption }} characters</mat-hint>
+      <mat-hint align="end">
+        {{ form.get("description").value?.length || 0 }} / {{ maxDesciption }}
+      </mat-hint>
+      <mat-error *ngIf="form.get('description').hasError('maxlength')">
+        The max lenght for the Reminder field is {{ maxDesciption }} characters
+      </mat-error>
+      <mat-error *ngIf="form.get('description').hasError('required')">
+        The Reminder field is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="full-width side">
+      <mat-form-field class="full-width">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="datePicker" formControlName="date" />
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-error *ngIf="form.get('description').hasError('required')">
+          The Date field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Hour</mat-label>
+        <mat-select formControlName="hour">
+          <mat-option *ngFor="let hour of hours" [value]="hour">
+            {{ hour }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Minute</mat-label>
+        <mat-select formControlName="minute">
+          <mat-option *ngFor="let minute of minutes" [value]="minute">
+            {{ minute }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="full-width">
+      <mat-label>City</mat-label>
+      <input type="text" matInput formControlName="city" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Color</mat-label>
+      <input type="color" matInput formControlName="color" />
+      <mat-hint>
+        A color that will be used to highlight this reminder in the calendar
+      </mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+    <button mat-flat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</form>

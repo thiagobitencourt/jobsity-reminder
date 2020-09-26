@@ -22,8 +22,6 @@ export class CalendarService {
       this.getMonthReminders(firstDayOfMonth, lastDayOfMonth),
       this.getMonthForecast(firstDayOfMonth, lastDayOfMonth)
     ]).pipe(map(([ calendarDates, remindersDateMap, forecast ]: any[]) => {
-      console.log('here: ', calendarDates, remindersDateMap);
-
       return calendarDates.map((calendarDate: CalendarDate) => {
         const dateKey = format(calendarDate.date, 'yyyy-MM-dd');
         calendarDate.reminders = remindersDateMap[dateKey] || [];

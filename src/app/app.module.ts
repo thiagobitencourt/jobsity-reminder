@@ -8,6 +8,15 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { IsTodayPipe } from './pipes/is-today.pipe';
 import { IsWeekendPipe } from './pipes/is-weekend.pipe';
 import { IsOutOfMonthPipe } from './pipes/is-out-of-month.pipe';
+import { ReminderFormComponent } from './components/reminder-form/reminder-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -16,11 +25,22 @@ import { IsOutOfMonthPipe } from './pipes/is-out-of-month.pipe';
     CalendarComponent,
     IsTodayPipe,
     IsWeekendPipe,
-    IsOutOfMonthPipe
+    IsOutOfMonthPipe,
+    ReminderFormComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // Angular Material Modules
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
