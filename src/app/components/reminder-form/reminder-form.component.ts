@@ -88,6 +88,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.form.get('city').valueChanges.pipe(debounceTime(300)).subscribe(this.loadCityDateForecast.bind(this)));
     this.subscriptions.add(this.form.get('date').valueChanges.pipe(debounceTime(300)).subscribe(this.loadCityDateForecast.bind(this)));
+    this.loadCityDateForecast();
   }
 
   private loadCityDateForecast() {
