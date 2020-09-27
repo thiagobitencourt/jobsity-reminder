@@ -104,7 +104,6 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
         this.subscriptions.add(
           this.forecastService.getForecastCityDate(cityName, date)
             .subscribe((forecast: Forecast) => {
-              console.log(forecast);
               this.forecast = forecast;
             }, () => {
               this.forecastNoFound = true;

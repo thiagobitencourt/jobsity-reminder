@@ -1,5 +1,15 @@
 <div class="reminder-item" (click)="clickReminder()" title="Edit">
-  <span class="color" [style.background]="reminder?.color"></span>
-  <span class="label">{{ reminder?.description }}</span>
+  <div class="color" [style.background]="reminder?.color"></div>
+  <div class="body">
+    <div class="label">{{ reminder?.forecast ? 'S' : 'N' }} - {{ reminder?.description }}</div>
+    <div class="forecast-time">
+      <img class="forecast"
+        *ngIf="reminder?.forecast?.icon"
+        title="{{ reminder?.forecast?.main + ', ' + reminder?.forecast?.description }}"
+        src="http://openweathermap.org/img/w/{{reminder?.forecast?.icon}}.png"
+        alt="Icon">
+      <span class="time">{{ reminder?.datetime | date: 'HH:mm'}}</span>
+    </div>
+  </div>
   <span class="remove" title="Remove" (click)="removeReminder()">X</span>
 </div>

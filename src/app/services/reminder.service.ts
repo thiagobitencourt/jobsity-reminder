@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { compareAsc, eachDayOfInterval, format } from 'date-fns';
-import { Observable, of, Subject } from 'rxjs';
+import { compareAsc, eachDayOfInterval, parse, format } from 'date-fns';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Reminder } from '../models/reminder';
 import { RemindersDateMap } from '../models/reminders-date-map';
+import { ForecastService } from './forecast.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { StorageService } from './storage.service';
 })
 export class ReminderService {
   reminderChangesSubject = new Subject();
-  constructor(private storage: StorageService) {}
+  constructor(private storage: StorageService, private forecastService: ForecastService) {}
 
   reminderChanges(): Observable<any> {
     return this.reminderChangesSubject.asObservable();
@@ -23,9 +25,23 @@ export class ReminderService {
     eachDayOfInterval({ start, end })
       .map(date => this.dateString(date))
       .forEach(dateString => {
-        periodReminders[dateString] = allReminders[dateString];
+        periodReminders[dateString] = allReminders[dateString] || [];
       });
 
+    let forecastRequest = [];
+    for(let date in periodReminders) {
+      const remindersDate = parse(date, 'yyyy-MM-dd', new Date());
+      if (this.forecastService.isForecastSearchableForDate(remindersDate)) {
+        forecastRequest = [
+          ...forecastRequest,
+          ...periodReminders[date].map(reminder => this.getForecastForReminder(reminder))
+        ]
+      }
+    }
+
+    if (forecastRequest.length) {
+      return forkJoin(forecastRequest).pipe(map(() => periodReminders));
+    }
     return of(periodReminders);
   }
 
@@ -66,6 +82,14 @@ export class ReminderService {
     allReminders[dateString] = [];
     this.setReminders(allReminders);
     return of(true);
+  }
+
+  private getForecastForReminder(reminder) {
+    return this.forecastService.getForecastCityDate(reminder.city, reminder.datetime)
+      .pipe(map(forecast => {
+        reminder.forecast = forecast;
+        return reminder;
+      }));
   }
 
   private setReminders(reminders) {

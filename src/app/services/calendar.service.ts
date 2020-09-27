@@ -19,13 +19,11 @@ export class CalendarService {
 
     return forkJoin([
       this.getCalendarDatesList(firstDayOfMonth, lastDayOfMonth),
-      this.reminderService.getReminders(firstDayOfMonth, lastDayOfMonth),
-      this.getMonthForecast(firstDayOfMonth, lastDayOfMonth)
-    ]).pipe(map(([ calendarDates, remindersDateMap, forecast ]: any[]) => {
+      this.reminderService.getReminders(firstDayOfMonth, lastDayOfMonth)
+    ]).pipe(map(([ calendarDates, remindersDateMap ]: any[]) => {
       return calendarDates.map((calendarDate: CalendarDate) => {
         const dateKey = format(calendarDate.date, 'yyyy-MM-dd');
         calendarDate.reminders = remindersDateMap[dateKey] || [];
-        calendarDate.forecast = [];
         return calendarDate;
       });
     }));
@@ -36,10 +34,6 @@ export class CalendarService {
     const start = subDays(firstDayOfMonth, getDay(firstDayOfMonth));
     // Always ends at Saturday
     const end = addDays(lastDayOfMonth, SATURDAY - getDay(lastDayOfMonth));
-    return of(eachDayOfInterval({ start, end }).map((date: Date) => ({ date, reminders: [], forecast: [] })));
-  }
-
-  private getMonthForecast(firstDayOfMonth: Date, lastDayOfMonth: Date) {
-    return of([]);
+    return of(eachDayOfInterval({ start, end }).map((date: Date) => ({ date, reminders: [] })));
   }
 }

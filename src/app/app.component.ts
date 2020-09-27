@@ -10,8 +10,6 @@ export class AppComponent {
   constructor(private dialogService: DialogService) {}
 
   newReminder() {
-    this.dialogService.openReminderDialog().subscribe(reminder => {
-      console.log(reminder);
-    })
+    this.dialogService.openReminderDialog().subscribe(() => {});
   }
 }

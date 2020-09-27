@@ -2,23 +2,39 @@
 
 .reminder-item {
   display: grid;
-  grid-template-columns: 20px 1fr auto;
+  grid-template-columns: 7px 1fr auto;
   gap: 5px;
   padding: 5px 3px;
+
+  .body {
+    overflow: hidden;
+  }
 
   &:hover {
     cursor: pointer;
     background-color: $highlight-color;
   }
 
-  .color {
-    border-radius: 50%;
-  }
-
   .label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .forecast-time {
+    font-size: 10px;
+    font-weight: bold;
+    color: $secondary-text-color;
+    display: flex;
+
+    .forecast {
+      width: 25px;
+    }
+
+    .time {
+      align-self: center;
+      margin: 3px 0 0 3px;
+    }
   }
 
   .remove {
