@@ -1,7 +1,7 @@
 <div class="reminder-item" (click)="clickReminder()" title="Edit">
   <div class="color" [style.background]="reminder?.color"></div>
   <div class="body">
-    <div class="label">{{ reminder?.forecast ? 'S' : 'N' }} - {{ reminder?.description }}</div>
+    <div class="label">{{ reminder?.description }}</div>
     <div class="forecast-time">
       <img class="forecast"
         *ngIf="reminder?.forecast?.icon"
