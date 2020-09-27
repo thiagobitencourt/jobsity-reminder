@@ -7,6 +7,9 @@ import { DialogService } from './services/dialog.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  initialMonth = new Date();
+  currentMonth = new Date();
+
   constructor(private dialogService: DialogService) {}
 
   newReminder() {

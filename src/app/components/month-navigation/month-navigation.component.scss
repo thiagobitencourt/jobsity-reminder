@@ -1,0 +1,35 @@
+@import "src/assets/styles/theme";
+
+:host {
+  display: grid;
+  grid-template-columns: auto minmax(150px, auto) auto;
+  color: $primary-text-color;
+  border-radius: 4px;
+  border: 2px solid $divider-color;
+
+  .icon {
+    font-size: 20px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $highlight-color;
+    }
+
+    &.left {
+      border-right: 2px solid $divider-color;
+    }
+
+    &.right {
+      border-left: 2px solid $divider-color;
+    }
+  }
+
+  .month-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

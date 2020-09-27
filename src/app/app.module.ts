@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ReminderItemComponent } from './components/reminder-item/reminder-item.component';
+import { MonthNavigationComponent } from './components/month-navigation/month-navigation.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ReminderItemComponent } from './components/reminder-item/reminder-item.
     IsWeekendPipe,
     IsOutOfMonthPipe,
     ReminderFormComponent,
-    ReminderItemComponent
+    ReminderItemComponent,
+    MonthNavigationComponent
   ],
   imports: [
     BrowserModule,

@@ -85,11 +85,16 @@ export class ReminderService {
   }
 
   private getForecastForReminder(reminder) {
-    return this.forecastService.getForecastCityDate(reminder.city, reminder.datetime)
-      .pipe(map(forecast => {
-        reminder.forecast = forecast;
-        return reminder;
-      }));
+    return new Observable<Reminder>(resolve => {
+      this.forecastService.getForecastCityDate(reminder.city, reminder.datetime)
+        .subscribe(forecast => {
+          reminder.forecast = forecast;
+        })
+        .add(() => {
+          resolve.next(reminder);
+          resolve.complete();
+        });
+    });
   }
 
   private setReminders(reminders) {

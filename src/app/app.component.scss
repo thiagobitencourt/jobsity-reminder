@@ -4,6 +4,9 @@
 
     .actions {
       margin-bottom: 15px;
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      gap: 20px;
     }
   }
 }

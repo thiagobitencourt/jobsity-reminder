@@ -9,13 +9,12 @@
     *ngFor="let calendarDate of calendarDates"
     [class.is-today]="calendarDate.date | isToday"
     [class.is-weekend]="calendarDate.date | isWeekend"
-    [class.is-disabled]="calendarDate.date | isOutOfMonth"
+    [class.is-disabled]="calendarDate.date | isOutOfMonth:month"
   >
     <div class="calendar-item-header">
       <span class="calendar-day-number">{{ calendarDate.date | date: "dd" }}</span>
-      <span><!-- Forecast icon --></span>
       <span><!-- Placeholder --></span>
-      <span class="remove-all" title="Remove all" *ngIf="!(calendarDate.date | isOutOfMonth) && calendarDate.reminders?.length" (click)="removeAllReminders(calendarDate.date)">Xx</span>
+      <span class="remove-all" title="Remove all" *ngIf="!(calendarDate.date | isOutOfMonth:month) && calendarDate.reminders?.length" (click)="removeAllReminders(calendarDate.date)">Xx</span>
     </div>
 
     <div class="calendar-item-body">

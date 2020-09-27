@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CalendarDate } from 'src/app/models/calendar-date';
 import { Reminder } from 'src/app/models/reminder';
@@ -11,10 +11,10 @@ import { ReminderService } from 'src/app/services/reminder.service';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit, OnDestroy {
+export class CalendarComponent implements OnInit, OnDestroy, OnChanges {
   subscriptions = new Subscription();
   calendarDates: CalendarDate[];
-  month = new Date();
+  @Input() month;
 
   constructor(
     private calendarService: CalendarService,
@@ -23,12 +23,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadCalendar();
     this.setReminderChangesListener();
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  ngOnChanges() {
+    this.loadCalendar();
   }
 
   removeReminder(reminder: Reminder) {

@@ -1,9 +1,8 @@
 <app-toolbar></app-toolbar>
 <div class="content" role="main">
   <div class="actions">
-    <button mat-flat-button color="primary" (click)="newReminder()">
-      New reminder
-    </button>
+    <button mat-flat-button color="primary" (click)="newReminder()">New reminder</button>
+    <app-month-navigation [month]="initialMonth" (monthChanges)="currentMonth = $event"></app-month-navigation>
   </div>
-  <app-calendar></app-calendar>
+  <app-calendar [month]="currentMonth"></app-calendar>
 </div>
