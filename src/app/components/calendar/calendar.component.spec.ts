@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { IsOutOfMonthPipe } from 'src/app/pipes/is-out-of-month.pipe';
@@ -21,7 +22,7 @@ describe('CalendarComponent', () => {
         { provider: DialogService, useValue: {} },
         { provider: CalendarService, useValue: {} }
       ],
-      imports: [MatDialogModule]
+      imports: [MatDialogModule, HttpClientModule]
     })
     .compileComponents();
   });
