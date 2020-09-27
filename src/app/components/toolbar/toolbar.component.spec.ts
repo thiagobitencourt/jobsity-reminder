@@ -30,11 +30,16 @@ describe('ToolbarComponent', () => {
 
   it('should render title', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.toolbar span').textContent).toContain(appTitle);
+    expect(compiled.querySelector('.toolbar h1.title').textContent).toContain(appTitle);
+  });
+
+  it('should have a link to Jobsity page', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.toolbar a.jobsity-link').href).toContain('jobsity.com');
   });
 
   it('should have a link to github code', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.toolbar a').href).toContain('github.com/thiagobitencourt/jobsity-reminder');
+    expect(compiled.querySelector('.toolbar a.code-link').href).toContain('github.com/thiagobitencourt/jobsity-reminder');
   });
 });
