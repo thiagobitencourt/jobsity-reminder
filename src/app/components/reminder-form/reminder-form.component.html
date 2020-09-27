@@ -51,6 +51,18 @@
       <input type="text" matInput formControlName="city" />
     </mat-form-field>
 
+    <div class="forecast-message">
+      <div *ngIf="forecastNoFound">{{ forecastNoFoundMessage }}</div>
+      <div *ngIf="forecastNoAvailable">{{ forecastNoAvailableMessage }}</div>
+      <div class="forecast" *ngIf="forecast">
+        <img *ngIf="forecast.icon" src="http://openweathermap.org/img/w/{{forecast.icon}}.png" alt="Icon">
+        <div>
+          <strong>{{ forecast.main }}</strong>,
+          <i>{{ forecast.description }}</i>
+        </div>
+      </div>
+    </div>
+
     <mat-form-field class="full-width">
       <mat-label>Color</mat-label>
       <input type="color" matInput formControlName="color" />

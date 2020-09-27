@@ -1,3 +1,5 @@
+@import "src/assets/styles/theme";
+
 :host {
   .form-fields {
     display: grid;
@@ -11,6 +13,23 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 15px;
+    }
+  }
+
+  .forecast-message {
+    min-height: 35px;
+    margin-top: -5px;
+    color: $warn-color;
+
+    .forecast {
+      display: grid;
+      align-items: center;
+      grid-template-columns: 40px 1fr;
+      gap: 10px;
+
+      img {
+        width: 35px;
+      }
     }
   }
 }

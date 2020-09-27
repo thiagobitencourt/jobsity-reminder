@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ForecastService } from 'src/app/services/forecast.service';
 import { ReminderFormComponent } from './reminder-form.component';
 
 describe('ReminderFormComponent', () => {
@@ -17,7 +18,11 @@ describe('ReminderFormComponent', () => {
       declarations: [ReminderFormComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
+        { provide: ForecastService, useValue: {
+          forecastAvailableInterval: () => ({ start: new Date(), end: new Date() })
+        } }
       ],
       imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, BrowserAnimationsModule],
       schemas: [NO_ERRORS_SCHEMA]
