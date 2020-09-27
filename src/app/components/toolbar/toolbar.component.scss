@@ -3,11 +3,14 @@
 .toolbar {
   height: 60px;
   align-items: center;
-  background-color: $primary-color;
-  color: $white-color;
-  font-weight: bold;
+  background-color: $light-color;
+  color: $primary-text-color;
   display: grid;
   grid-template-columns: auto auto 1fr auto;
+
+  .title {
+    margin-bottom: 0;
+  }
 
   img {
     margin: 0 16px;
