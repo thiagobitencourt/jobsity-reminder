@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ReminderItemComponent } from './components/reminder-item/reminder-item.component';
 import { MonthNavigationComponent } from './components/month-navigation/month-navigation.component';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -46,9 +47,19 @@ import { MonthNavigationComponent } from './components/month-navigation/month-na
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 4500,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

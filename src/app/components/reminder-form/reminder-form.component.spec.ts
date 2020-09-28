@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { format, isThisHour, isThisMinute, isToday, parse } from 'date-fns';
@@ -37,7 +38,7 @@ describe('ReminderFormComponent', () => {
         { provide: ReminderService, useValue: reminderService },
         { provide: ForecastService, useValue: forecastService }
       ],
-      imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, BrowserAnimationsModule],
+      imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, BrowserAnimationsModule, MatSnackBarModule],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();

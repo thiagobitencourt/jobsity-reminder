@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IsOutOfMonthPipe } from 'src/app/pipes/is-out-of-month.pipe';
 import { IsTodayPipe } from 'src/app/pipes/is-today.pipe';
 import { IsWeekendPipe } from 'src/app/pipes/is-weekend.pipe';
@@ -22,7 +23,7 @@ describe('CalendarComponent', () => {
         { provider: DialogService, useValue: {} },
         { provider: CalendarService, useValue: {} }
       ],
-      imports: [MatDialogModule, HttpClientModule]
+      imports: [MatDialogModule, HttpClientModule, MatSnackBarModule]
     })
     .compileComponents();
   });

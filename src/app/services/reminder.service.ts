@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { compareAsc, eachDayOfInterval, parse, format } from 'date-fns';
 import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +13,11 @@ import { StorageService } from './storage.service';
 })
 export class ReminderService {
   reminderChangesSubject = new Subject();
-  constructor(private storage: StorageService, private forecastService: ForecastService) {}
+  constructor(
+    private storage: StorageService,
+    private forecastService: ForecastService,
+    private snackBar: MatSnackBar
+  ) {}
 
   reminderChanges(): Observable<any> {
     return this.reminderChangesSubject.asObservable();
@@ -49,6 +54,7 @@ export class ReminderService {
     let allReminders = this.storage.getReminders();
     const dateString = this.dateString(reminder.datetime);
     const reminders = allReminders[dateString] || [];
+    let isNewReminder = false;
     
     if (reminder.id) {
       const existingReminderIndex = reminders.findIndex(rem => rem.id === reminder.id);
@@ -59,6 +65,7 @@ export class ReminderService {
         reminders.push(reminder);
       }
     } else {
+      isNewReminder = true;
       reminder.id = this.generateReminderId();
       reminders.push(reminder);
     }
@@ -66,21 +73,32 @@ export class ReminderService {
     reminders.sort((reminderA, reminderB) => compareAsc(new Date(reminderA.datetime), new Date(reminderB.datetime)));
     allReminders[dateString] = reminders;
     this.setReminders(allReminders);
+    this.snackBarSaveReminder(reminder, isNewReminder);
     return of(reminder);
+  }
+
+  saveAllReminders(date: Date, reminders: Reminder[]) {
+    let allReminders = this.storage.getReminders();
+    const dateString = this.dateString(date);
+    allReminders[dateString] = [...allReminders[dateString], ...reminders];
+    this.setReminders(allReminders);
   }
 
   removeReminder(reminder: Reminder): Observable<boolean> {
     let allReminders = this.storage.getReminders();
     allReminders = this.remove(allReminders, reminder);
     this.setReminders(allReminders);
+    this.snackBarRemoveReminder(reminder);
     return of(true);
   }
 
   removeAllRemindersByDate(date: Date): Observable<boolean> {
     const allReminders = this.storage.getReminders();
     const dateString = this.dateString(date);
+    const reminders = allReminders[dateString];
     allReminders[dateString] = [];
     this.setReminders(allReminders);
+    this.snackBarRemoveAllReminders(date, reminders);
     return of(true);
   }
 
@@ -119,6 +137,32 @@ export class ReminderService {
   }
 
   private dateString(date: Date): string {
-    return format(date, 'yyyy-MM-dd');
+    return format(new Date(date), 'yyyy-MM-dd');
+  }
+
+  private snackBarSaveReminder(reminder: Reminder, isNewReminder = false) {
+    this.snackBar.open(`Reminder set to ${format(reminder.datetime, 'MM-dd-yyyy HH:mm')}`, isNewReminder ? 'Remove' : '')
+    .onAction()
+    .subscribe(() => {
+      if (isNewReminder) {
+        this.removeReminder(reminder);
+      }
+    });
+  }
+
+  private snackBarRemoveReminder(reminder: Reminder) {
+    this.snackBar.open(`Reminder just removed`, 'Undo')
+      .onAction()
+      .subscribe(() => {
+        this.saveReminder(reminder);
+      });
+  }
+
+  private snackBarRemoveAllReminders(date: Date, reminders: Reminder[]) {
+    this.snackBar.open(`Removed ${reminders.length} ${reminders.length > 1 ? 'reminders' : 'reminder'}`, 'Undo')
+      .onAction()
+      .subscribe(() => {
+        this.saveAllReminders(date, reminders);
+      });
   }
 }
