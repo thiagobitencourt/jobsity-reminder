@@ -66,7 +66,7 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
   }
 
   remove() {
-    if (this.reminder.id) {
+    if (this.form.get('id').value) {
       this.subscriptions.add(
         this.reminderService.removeReminder(this.reminder).subscribe(() => {
           this.dialogRef.close(this.reminder);

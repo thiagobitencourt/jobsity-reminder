@@ -87,6 +87,25 @@ describe('ReminderFormComponent', () => {
     expect(reminderService.saveReminder).toHaveBeenCalledWith(reminder);
   });
 
+  it('should have a remove action when editing a reminder', () => {
+    component.form.patchValue({ id: '10', date: new Date(), description: 'test reminder' });
+    fixture.detectChanges();
+
+    const removeAction = fixture.debugElement.query(By.css('button[color="warn"]'));
+    
+    expect(component.form.get('id').value).toEqual('10');
+    expect(removeAction).toBeTruthy();
+    expect(removeAction.nativeElement.textContent).toContain('Remove');
+  });
+
+  it('shoul remove the existing reminder', () => {
+    reminderService.removeReminder = jasmine.createSpy('removeReminder').and.returnValue(of());
+    component.form.patchValue({ id: '10', date: new Date(), description: 'test reminder' });
+
+    component.remove();
+    expect(reminderService.removeReminder).toHaveBeenCalled();
+  });
+
   it('should not allow to create a reminder without a description', () => {
     reminderService.saveReminder = jasmine.createSpy('saveReminder').and.returnValue(of({}));
 
