@@ -16,7 +16,7 @@ import { addDays, eachDayOfInterval, endOfMonth, endOfWeek, format, startOfMonth
 import { By } from '@angular/platform-browser';
 import { ReminderItemComponent } from '../reminder-item/reminder-item.component';
 
-fdescribe('CalendarComponent', () => {
+describe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
 
