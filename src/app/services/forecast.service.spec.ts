@@ -48,7 +48,12 @@ describe('ForecastService', () => {
   it('getForecastCityDate should not load the forecast for a date that is not searchable', () => {
     const city = 'London';
     const date = addDays(new Date(), 20);
+
+    spyOn(service, 'isForecastSearchableForDate').and.returnValue(false);
+    httpClient.get = jasmine.createSpy('get').and.returnValue(of({}));
+
     service.getForecastCityDate(city, date).subscribe(() => {
+      expect(service.isForecastSearchableForDate).toHaveBeenCalled();
       expect(httpClient.get).not.toHaveBeenCalled();
     });
   });
