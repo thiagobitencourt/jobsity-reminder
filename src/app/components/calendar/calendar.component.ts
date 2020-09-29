@@ -12,8 +12,9 @@ import { ReminderService } from 'src/app/services/reminder.service';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit, OnDestroy, OnChanges {
-  subscriptions = new Subscription();
-  calendarDates: CalendarDate[];
+  reminderChangesSubscription: Subscription;
+  loadCalendarSubscription: Subscription;
+  calendarDates: CalendarDate[] = [];
   @Input() month;
 
   constructor(
@@ -27,7 +28,8 @@ export class CalendarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.cancelReminderChangesListener();
+    this.cancelCalendarExistingLoader();
   }
 
   ngOnChanges() {
@@ -43,22 +45,30 @@ export class CalendarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   editReminder(reminder: Reminder) {
-    this.subscriptions.add(
-      this.dialogService.openReminderDialog(reminder).subscribe()
-    );
+    this.dialogService.openReminderDialog(reminder).subscribe();
   }
 
   private loadCalendar() {
-    this.subscriptions.add(
-      this.calendarService.getCalendarDates(this.month).subscribe(calendarDates => {
-       this.calendarDates = calendarDates;
-      })
-    );
+    this.cancelCalendarExistingLoader();
+    this.loadCalendarSubscription = this.calendarService.getCalendarDates(this.month).subscribe(calendarDates => {
+        this.calendarDates = calendarDates || [];
+      });
   }
 
   private setReminderChangesListener() {
-    this.subscriptions.add(
-      this.reminderService.reminderChanges().subscribe(this.loadCalendar.bind(this))
-    );
+    this.cancelReminderChangesListener();
+    this.reminderChangesSubscription = this.reminderService.reminderChanges().subscribe(this.loadCalendar.bind(this));
+  }
+
+  private cancelCalendarExistingLoader() {
+    if (this.loadCalendarSubscription) {
+      this.loadCalendarSubscription.unsubscribe();
+    }
+  }
+
+  private cancelReminderChangesListener() {
+    if (this.reminderChangesSubscription) {
+      this.reminderChangesSubscription.unsubscribe();
+    }
   }
 }
