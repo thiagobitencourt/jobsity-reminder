@@ -166,4 +166,119 @@ describe('ReminderService', () => {
       expect(storageService.setReminders).toHaveBeenCalledWith(expectedReminders);
     });
   });
+
+  it('should remove a reminder', () => {
+    const reminder = { id: '12345', description: 'reminder 0', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) };
+    const remindersMock = { '2020-09-09': [reminder] };
+    const expectedReminders = { '2020-09-09': [] };
+
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue(remindersMock);
+    storageService.setReminders = jasmine.createSpy('setReminders').and.stub();
+
+    service.removeReminder(reminder).subscribe(() => {
+      expect(storageService.setReminders).toHaveBeenCalledWith(expectedReminders);
+    });
+  });
+
+  it('should remove all the reminders of a given date', () => {
+    const date = parse('2020-09-10', 'yyyy-MM-dd', new Date());
+    const remindersMock = {
+      '2020-09-09': [
+        { id: '1', description: 'reminder 0', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) },
+        { id: '2', description: 'reminder 1', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) }
+      ],
+      '2020-09-10': [
+        { id: '3', description: 'reminder 2', datetime: parse('2020-09-10', 'yyyy-MM-dd', new Date()) },
+        { id: '4', description: 'reminder 3', datetime: parse('2020-09-10', 'yyyy-MM-dd', new Date()) }
+      ]
+    };
+    const expectedReminders = {
+      '2020-09-09': remindersMock['2020-09-09'],
+      '2020-09-10': []
+    };
+
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue(remindersMock);
+    storageService.setReminders = jasmine.createSpy('setReminders').and.stub();
+
+    service.removeAllRemindersByDate(date).subscribe(() => {
+      expect(storageService.setReminders).toHaveBeenCalledWith(expectedReminders);
+    });
+  });
+
+  it('should emit an event every time a reminder changes', () => {
+    const reminderChangesListener = jasmine.createSpy('reminderChangesListener').and.stub();
+    const reminder1 = { datetime: new Date(), description: 'test reminder 1' };
+    const reminder2 = { datetime: new Date(), description: 'test reminder 2' };
+
+    service.reminderChanges().subscribe(reminderChangesListener);
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue({});
+
+    service.saveReminder(reminder1);
+    service.saveReminder(reminder2);
+    service.removeReminder(reminder1);
+    service.removeAllRemindersByDate(new Date());
+
+    expect(reminderChangesListener).toHaveBeenCalledTimes(4);
+  });
+
+  it('should display the snackBar after add the reminder with a "Remove" option', () => {
+    const datetime = parse('2020-09-09', 'yyyy-MM-dd', new Date());
+    const reminder = { datetime, description: 'test reminder 1' };
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue({});
+
+    service.saveReminder(reminder).subscribe(() => {
+      expect(snackBar.open).toHaveBeenCalledWith(`Reminder set to ${format(reminder.datetime, 'MM-dd-yyyy HH:mm')}`, 'Remove');
+    });
+  });
+
+  it('should display the snackBar after edit a reminder without the "Remove" option', () => {
+    const datetime = parse('2020-09-09', 'yyyy-MM-dd', new Date());
+    const reminder = { id: '12345', datetime, description: 'test reminder 1' };
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue({});
+
+    service.saveReminder(reminder).subscribe(() => {
+      expect(snackBar.open).toHaveBeenCalledWith(`Reminder set to ${format(reminder.datetime, 'MM-dd-yyyy HH:mm')}`, '');
+    });
+  });
+
+  it('should display the snackBar after remove the reminder with an "Undo" option', () => {
+    const datetime = parse('2020-09-09', 'yyyy-MM-dd', new Date());
+    const reminder = { id: '12345', datetime, description: 'test reminder 1' };
+
+    const remindersMock = {
+      '2020-09-09': [
+        { id: '1', description: 'reminder 0', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) },
+        { id: '2', description: 'reminder 1', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) }
+      ]
+    };
+
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue(remindersMock);
+
+    service.removeReminder(reminder).subscribe(() => {
+      expect(snackBar.open).toHaveBeenCalledWith('Reminder just removed', 'Undo');
+    });
+  });
+
+  it('should display the snackBar after remove all the reminders with an "Undo" option', () => {
+    const datetime09 = parse('2020-09-09', 'yyyy-MM-dd', new Date());
+    const datetime10 = parse('2020-09-10', 'yyyy-MM-dd', new Date());
+
+    const remindersMock = {
+      '2020-09-09': [
+        { id: '1', description: 'reminder 0', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) },
+        { id: '2', description: 'reminder 1', datetime: parse('2020-09-09', 'yyyy-MM-dd', new Date()) }
+      ],
+      '2020-09-10': [
+        { id: '3', description: 'reminder 2', datetime: parse('2020-09-10', 'yyyy-MM-dd', new Date()) }
+      ]
+    };
+
+    storageService.getReminders = jasmine.createSpy('getReminders').and.returnValue(remindersMock);
+
+    service.removeAllRemindersByDate(datetime09);
+    service.removeAllRemindersByDate(datetime10);
+    
+    expect(snackBar.open).toHaveBeenCalledWith('Removed 2 reminders', 'Undo');
+    expect(snackBar.open).toHaveBeenCalledWith('Removed 1 reminder', 'Undo');
+  });
 });
