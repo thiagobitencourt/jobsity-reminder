@@ -77,13 +77,6 @@ export class ReminderService {
     return of(reminder);
   }
 
-  saveAllReminders(date: Date, reminders: Reminder[]) {
-    let allReminders = this.storage.getReminders();
-    const dateString = this.dateString(date);
-    allReminders[dateString] = [...allReminders[dateString], ...reminders];
-    this.setReminders(allReminders);
-  }
-
   removeReminder(reminder: Reminder): Observable<boolean> {
     let allReminders = this.storage.getReminders();
     allReminders = this.remove(allReminders, reminder);
@@ -100,6 +93,13 @@ export class ReminderService {
     this.setReminders(allReminders);
     this.snackBarRemoveAllReminders(date, reminders);
     return of(true);
+  }
+
+  private saveAllReminders(date: Date, reminders: Reminder[]) {
+    let allReminders = this.storage.getReminders();
+    const dateString = this.dateString(date);
+    allReminders[dateString] = [...allReminders[dateString], ...reminders];
+    this.setReminders(allReminders);
   }
 
   private getForecastForReminder(reminder) {
