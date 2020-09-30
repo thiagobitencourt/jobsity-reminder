@@ -1,4 +1,4 @@
-<div class="reminder-item" (click)="clickReminder()" title="Edit">
+<div class="reminder-item" [class.mobile]="isMobile" (click)="clickReminder()" title="Edit">
   <div class="color" [style.background]="reminder?.color"></div>
   <div class="body">
     <div class="label">{{ reminder?.description }}</div>

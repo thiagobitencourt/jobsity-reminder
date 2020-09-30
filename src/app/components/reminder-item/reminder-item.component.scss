@@ -6,6 +6,21 @@
   gap: 5px;
   padding: 5px 3px;
 
+  &.mobile {
+    grid-template-columns: 1fr;
+    padding: 0;
+    margin-bottom: 3px;
+
+    .body, .remove {
+      display: none;
+    }
+
+    .color {
+      height: 25px;
+      border-radius: 5px;
+    }
+  }
+
   .body {
     overflow: hidden;
   }

@@ -15,6 +15,7 @@ import { CalendarDate } from 'src/app/models/calendar-date';
 import { addDays, eachDayOfInterval, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek, subDays } from 'date-fns';
 import { By } from '@angular/platform-browser';
 import { ReminderItemComponent } from '../reminder-item/reminder-item.component';
+import { WeekLabelPipe } from 'src/app/pipes/week-label.pipe';
 
 describe('CalendarComponent', () => {
   let component: CalendarComponent;
@@ -34,7 +35,7 @@ describe('CalendarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [IsTodayPipe, IsWeekendPipe, IsOutOfMonthPipe, CalendarComponent, ReminderItemComponent],
+      declarations: [IsTodayPipe, IsWeekendPipe, IsOutOfMonthPipe, WeekLabelPipe, CalendarComponent, ReminderItemComponent],
       providers: [
         { provide: ReminderService, useValue: reminderService },
         { provide: CalendarService, useValue: calendarService },

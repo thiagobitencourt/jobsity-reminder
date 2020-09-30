@@ -7,6 +7,7 @@ import { Reminder } from 'src/app/models/reminder';
   styleUrls: ['./reminder-item.component.scss']
 })
 export class ReminderItemComponent implements OnInit {
+  @Input() isMobile = false;
   @Input() reminder: Reminder;
   @Output() reminderClick = new EventEmitter<Reminder>();
   @Output() remove = new EventEmitter<Reminder>();

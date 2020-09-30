@@ -1,6 +1,6 @@
 <div class="calendar-line calendar-header">
   <div class="header-label" *ngFor="let calendarDate of calendarDates | slice: 0:7">
-    {{ calendarDate.date | date: "EEEE" }}
+    {{ calendarDate.date | date : 'EEEE' | weekLabel : isMobileSize }}
   </div>
 </div>
 
@@ -20,6 +20,7 @@
     <div class="calendar-item-body">
       <app-reminder-item
         *ngFor="let reminder of calendarDate.reminders"
+        [isMobile]="isMobileSize"
         [reminder]="reminder"
         (reminderClick)="editReminder(reminder)"
         (remove)="removeReminder(reminder)"

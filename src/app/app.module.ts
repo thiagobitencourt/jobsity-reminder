@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReminderItemComponent } from './components/reminder-item/reminder-item.component';
 import { MonthNavigationComponent } from './components/month-navigation/month-navigation.component';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { WeekLabelPipe } from './pipes/week-label.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
     IsOutOfMonthPipe,
     ReminderFormComponent,
     ReminderItemComponent,
-    MonthNavigationComponent
+    MonthNavigationComponent,
+    WeekLabelPipe
   ],
   imports: [
     BrowserModule,
