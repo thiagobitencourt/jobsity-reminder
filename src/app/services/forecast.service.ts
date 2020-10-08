@@ -29,7 +29,7 @@ export class ForecastService {
   isForecastSearchableForDate(date: Date): boolean {
     const refDate = new Date();
     const baseDate = this.parseToDateOnly(new Date(date), refDate);
-    
+
     return isWithinInterval(baseDate, this.forecastAvailableInterval(refDate));
   }
 

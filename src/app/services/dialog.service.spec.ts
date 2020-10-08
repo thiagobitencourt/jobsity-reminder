@@ -8,8 +8,8 @@ import { DialogService } from './dialog.service';
 describe('DialogService', () => {
   let service: DialogService;
 
-  const afterClose = { afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of({})) }
-  const dialogService = { open: jasmine.createSpy('open').and.returnValue(afterClose) }
+  const afterClose = { afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of({})) };
+  const dialogService = { open: jasmine.createSpy('open').and.returnValue(afterClose) };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('DialogService', () => {
   });
 
   it('should open the dialog with the given reminder', () => {
-    const reminder = { datetime: new Date, description: 'reminder test' };
+    const reminder = { datetime: new Date(), description: 'reminder test' };
     service.openReminderDialog(reminder).subscribe(() => {
       expect(dialogService.open).toHaveBeenCalledWith(ReminderFormComponent, { data: { reminder }, panelClass: 'responsive-dialog' });
     });

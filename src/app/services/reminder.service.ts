@@ -34,13 +34,15 @@ export class ReminderService {
       });
 
     let forecastRequest = [];
-    for(let date in periodReminders) {
-      const remindersDate = parse(date, 'yyyy-MM-dd', new Date());
-      if (this.forecastService.isForecastSearchableForDate(remindersDate)) {
-        forecastRequest = [
-          ...forecastRequest,
-          ...periodReminders[date].map(reminder => this.getForecastForReminder(reminder))
-        ]
+    for (const date in periodReminders) {
+      if (periodReminders[date]) {
+        const remindersDate = parse(date, 'yyyy-MM-dd', new Date());
+        if (this.forecastService.isForecastSearchableForDate(remindersDate)) {
+          forecastRequest = [
+            ...forecastRequest,
+            ...periodReminders[date].map(reminder => this.getForecastForReminder(reminder))
+          ];
+        }
       }
     }
 
@@ -55,7 +57,7 @@ export class ReminderService {
     const dateString = this.dateString(reminder.datetime);
     const reminders = allReminders[dateString] || [];
     let isNewReminder = false;
-    
+
     if (reminder.id) {
       const existingReminderIndex = reminders.findIndex(rem => rem.id === reminder.id);
       if (existingReminderIndex > -1) {
@@ -96,7 +98,7 @@ export class ReminderService {
   }
 
   private saveAllReminders(date: Date, reminders: Reminder[]) {
-    let allReminders = this.storage.getReminders();
+    const allReminders = this.storage.getReminders();
     const dateString = this.dateString(date);
     allReminders[dateString] = [...allReminders[dateString], ...reminders];
     this.setReminders(allReminders);
@@ -122,7 +124,7 @@ export class ReminderService {
 
   private remove(allReminders, reminder): RemindersDateMap {
     if (reminder.id) {
-      for (let date in allReminders) {
+      for (const date in allReminders) {
         if (allReminders[date] && allReminders[date].length) {
           allReminders[date] = allReminders[date].filter(rem => rem.id !== reminder.id);
         }

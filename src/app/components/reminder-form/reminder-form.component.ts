@@ -117,7 +117,8 @@ export class ReminderFormComponent implements OnInit, OnDestroy {
 
   private setUpMessages() {
     const { start, end } = this.forecastService.forecastAvailableInterval();
-    this.forecastNoAvailableMessage = `Weather forecast only available from ${format(start, 'MM-dd-yyyy')} to ${format(end, 'MM-dd-yyyy')}.`;
+    this.forecastNoAvailableMessage =
+      `Weather forecast only available from ${format(start, 'MM-dd-yyyy')} to ${format(end, 'MM-dd-yyyy')}.`;
     this.forecastNoFoundMessage = 'Weather forecast not available for this city.';
   }
 

@@ -13,7 +13,7 @@ describe('CalendarService', () => {
 
   const reminderService = {
     getReminders: jasmine.createSpy('getReminders').and.returnValue(of({}))
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('CalendarService', () => {
 
   it('"getCalendarDates" should load the reminder for the given month', () => {
     service.getCalendarDates(new Date()).subscribe(() => {
-      expect(reminderService.getReminders).toHaveBeenCalledWith(startOfMonth(new Date), endOfMonth(new Date()));
+      expect(reminderService.getReminders).toHaveBeenCalledWith(startOfMonth(new Date()), endOfMonth(new Date()));
     });
   });
 

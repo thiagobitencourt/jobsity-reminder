@@ -10,7 +10,7 @@ describe('ForecastService', () => {
 
   const httpClient = {
     get: jasmine.createSpy('get').and.returnValue(of({}))
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe('ForecastService', () => {
     expect(isToday(start)).toBeTrue();
     expect(isSameDay(end, addDays(start, 15))).toBeTrue();
   });
-  
+
   it('getForecastCityDate load the forecast for a searchable date', () => {
     const city = 'London';
     const date = new Date();
@@ -61,7 +61,7 @@ describe('ForecastService', () => {
   it('getForecastCityDate should return the forecast information for the given date', () => {
     const city = 'London';
     const date = parse('2020-09-29', 'yyyy-MM-dd', new Date());
-  
+
     const openWeatherSampleForecast = {
       city: { id: 2643743, name: 'London' },
       cnt: 1,

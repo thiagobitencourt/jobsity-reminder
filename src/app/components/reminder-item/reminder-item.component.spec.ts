@@ -76,7 +76,7 @@ describe('ReminderItemComponent', () => {
     const forecast = { date: new Date(), main: 'Rain', description: 'Rains a lot', city: 'London', icon: 'test-icon' };
     const reminder = { datetime: new Date(), description: 'reminder test', forecast };
     component.reminder = reminder;
-    
+
     fixture.detectChanges();
     const forecastIcon = fixture.debugElement.query(By.css('.reminder-item img.forecast'));
     expect(forecastIcon.attributes.src).toContain('test-icon.png');

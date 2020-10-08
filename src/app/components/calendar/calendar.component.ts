@@ -30,7 +30,6 @@ export class CalendarComponent implements OnInit, OnDestroy, OnChanges {
   @HostListener('window:resize', ['$event'])
   pageResize(event) {
     this.isMobileSize = event.target.innerWidth <= MOBILE_BREAKPOINT;
-    console.log(this.isMobileSize);
   }
 
   ngOnInit(): void {

@@ -28,7 +28,7 @@ describe('MonthNavigationComponent', () => {
   it('should display the current month', () => {
     const month = new Date();
     component.month = month;
-    
+
     const monthLabel = fixture.debugElement.query(By.css('.month-label'));
     expect(monthLabel.nativeElement.textContent).toBe(format(month, 'MMMM yyyy'));
   });
@@ -50,7 +50,7 @@ describe('MonthNavigationComponent', () => {
   it('should emit an event whit the month when the selected month changes', () => {
     spyOn(component.monthChanges, 'emit');
     component.month = new Date();
-    
+
     component.nextMonth();
     component.previousMonth();
     expect(component.monthChanges.emit).toHaveBeenCalledTimes(2);

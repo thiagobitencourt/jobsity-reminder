@@ -27,7 +27,7 @@ describe('ReminderFormComponent', () => {
     forecastAvailableInterval: jasmine.createSpy('forecastAvailableInterval').and.returnValue({ start: new Date(), end: new Date() })
   };
   const matDialogData = { reminder: undefined };
-  
+
   beforeEach(async () => {
     matDialogData.reminder = undefined;
     await TestBed.configureTestingModule({
@@ -38,7 +38,15 @@ describe('ReminderFormComponent', () => {
         { provide: ReminderService, useValue: reminderService },
         { provide: ForecastService, useValue: forecastService }
       ],
-      imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, BrowserAnimationsModule, MatSnackBarModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
+        MatSnackBarModule
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
@@ -74,16 +82,16 @@ describe('ReminderFormComponent', () => {
     const reminderDescription = 'test reminder';
 
     const reminder = {
-      id: null, 
+      id: null,
       datetime: parse(datetimeString, 'MM-dd-yyyy HH:mm', new Date()),
       description: reminderDescription,
       city: null,
       color: defaultColor
-    }
+    };
 
     component.form.get('description').setValue('test reminder');
     component.save();
-    
+
     expect(reminderService.saveReminder).toHaveBeenCalledWith(reminder);
   });
 
@@ -92,7 +100,7 @@ describe('ReminderFormComponent', () => {
     fixture.detectChanges();
 
     const removeAction = fixture.debugElement.query(By.css('button[color="warn"]'));
-    
+
     expect(component.form.get('id').value).toEqual('10');
     expect(removeAction).toBeTruthy();
     expect(removeAction.nativeElement.textContent).toContain('Remove');
@@ -144,7 +152,7 @@ describe('ReminderFormComponent', () => {
     component.form.get('description').setValue('test description');
     component.form.get('hour').setValue(null);
     fixture.detectChanges();
-    
+
     expect(component.form.invalid).toBeTrue();
     component.save();
     expect(reminderService.saveReminder).not.toHaveBeenCalled();

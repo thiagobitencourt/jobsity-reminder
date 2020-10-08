@@ -74,13 +74,12 @@ describe('CalendarComponent', () => {
     eachDayOfInterval({ start, end }).forEach(date => calendarDates.push({ date, reminders: [] }));
 
     calendarService.getCalendarDates = jasmine.createSpy('getCalendarDates').and.returnValue(of(calendarDates));
-    
     component.month = new Date();
     component.ngOnChanges();
     fixture.detectChanges();
 
     const calendarWeekLabels = fixture.debugElement.queryAll(By.css('.calendar-header .header-label'));
-    
+
     expect(calendarService.getCalendarDates).toHaveBeenCalledWith(component.month);
     expect(component.calendarDates.length).toEqual(7);
     expect(calendarWeekLabels.length).toEqual(7);
@@ -102,7 +101,7 @@ describe('CalendarComponent', () => {
     calendarService.getCalendarDates = jasmine.createSpy('getCalendarDates').and.returnValue(of(calendarDates));
     component.ngOnChanges();
     fixture.detectChanges();
-    
+
     const calendarDateItems = fixture.debugElement.queryAll(By.css('.calendar-grid .calendar-item'));
 
     expect(component.calendarDates.length).toEqual(calendarDates.length);
@@ -120,9 +119,8 @@ describe('CalendarComponent', () => {
     calendarService.getCalendarDates = jasmine.createSpy('getCalendarDates').and.returnValue(of(calendarDates));
     component.ngOnChanges();
     fixture.detectChanges();
-    
+
     const calendarDateItems = fixture.debugElement.query(By.css('.calendar-item .calendar-item-body app-reminder-item'));
-    
     expect(component.calendarDates[0].reminders[0]).toEqual({ datetime: component.calendarDates[0].date, description: 'reminder 0' });
     expect(calendarDateItems.nativeElement.textContent).toContain('reminder 0');
   });
@@ -137,7 +135,7 @@ describe('CalendarComponent', () => {
     }];
 
     calendarService.getCalendarDates = jasmine.createSpy('getCalendarDates').and.returnValue(of(calendarDates));
-    
+
     component.month = new Date();
     component.ngOnChanges();
     fixture.detectChanges();
@@ -215,7 +213,7 @@ describe('CalendarComponent', () => {
     eachDayOfInterval({ start, end }).forEach(date => calendarDates.push({ date, reminders: [] }));
 
     calendarService.getCalendarDates = jasmine.createSpy('getCalendarDates').and.returnValue(of(calendarDates));
-    
+
     component.month = new Date();
     component.ngOnChanges();
     fixture.detectChanges();

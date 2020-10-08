@@ -5,7 +5,7 @@ import { ToolbarComponent } from './toolbar.component';
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
-  let appTitle = 'Jobsity Reminder';
+  const appTitle = 'Jobsity Reminder';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
